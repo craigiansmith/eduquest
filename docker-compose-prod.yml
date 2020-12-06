@@ -2,29 +2,29 @@ version: '3.8'
 
 services:
     web:
-        image: thebusinessvalidationproject/tbvp-software:foodplannerv14
+        image: thebusinessvalidationproject/tbvp-software:eduquestv1
         command: >
             sh -c  "python manage.py migrate &&
                     python manage.py collectstatic --noinput &&
-                    gunicorn -b 0.0.0.0:60000 foodplanner.wsgi:application"
+                    gunicorn -b 0.0.0.0:60000 config.wsgi:application"
         volumes:
             - fp_static:/src/static
         ports:
-            - 60000:60000 
+            - 60002:60002
         depends_on:
             - db
         env_file:
-            - fp.env
+            - eq.env
         environment:
             - "DJANGO_DEBUG=False"
     db:
         image: postgres:13
         env_file:
-            - ./fp.db.env
+            - ./eq.db.env
         volumes:
-            - postgres_fp_prod_data:/var/lib/postgresql/data/
+            - postgres_eq_prod_data:/var/lib/postgresql/data/
 
 volumes:
-    postgres_fp_prod_data:
-    fp_static:
+    postgres_eq_prod_data:
+    eq_static:
 
