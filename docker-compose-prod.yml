@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+    web:
+        image: thebusinessvalidationproject/tbvp-software:foodplannerv14
+        command: >
+            sh -c  "python manage.py migrate &&
+                    python manage.py collectstatic --noinput &&
+                    gunicorn -b 0.0.0.0:60000 foodplanner.wsgi:application"
+        volumes:
+            - fp_static:/src/static
+        ports:
+            - 60000:60000 
+        depends_on:
+            - db
+        env_file:
+            - fp.env
+        environment:
+            - "DJANGO_DEBUG=False"
+    db:
+        image: postgres:13
+        env_file:
+            - ./fp.db.env
+        volumes:
+            - postgres_fp_prod_data:/var/lib/postgresql/data/
+
+volumes:
+    postgres_fp_prod_data:
+    fp_static:
+
