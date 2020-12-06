@@ -1,0 +1,31 @@
+{
+  "name": "eduquest",
+  "version": "1.0.0",
+  "description": "Learn through play! EduQuest teaches new learners through games designed to be delightful and educational.",
+  "main": "echo \"Run in docker container\"",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "css-build": "sass src/sass/pages.scss pages/static/css/pages.css",
+    "css-watch": "npm run css-build -- --watch",
+    "start": "npm run css-watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/craigiansmith/eduquest.git"
+  },
+  "keywords": [
+    "Education",
+    "Play",
+    "Learning"
+  ],
+  "author": "The Business Validation Project",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/craigiansmith/eduquest/issues"
+  },
+  "homepage": "https://github.com/craigiansmith/eduquest#readme",
+  "devDependencies": {
+    "bulma": "^0.9.1",
+    "sass": "^1.30.0"
+  }
+}
