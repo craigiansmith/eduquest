@@ -49,6 +49,15 @@ INSTALLED_APPS = [
     'cms',
     'menus',
     'treebeard',
+    'filer',
+    'easy_thumbnails',
+    'mptt',
+    'djangocms_text_ckeditor',
+    'djangocms_link',
+    'djangocms_file',
+    'djangocms_picture',
+    'djangocms_video',
+    'djangocms_style',
     'pages',
 ]
 
@@ -101,6 +110,15 @@ WSGI_APPLICATION = 'config.wsgi.application'
 DATABASES = {
     'default': env.dj_db_url('DATABASE_URL', default='postgres://postgres@db/postgres')
 }
+
+THUMBNAIL_HIGH_RESOLUTION = True
+
+THUMBNAIL_PROCESSORS = (
+    'easy_thumbnails.processors.colorspace',
+    'easy_thumbnails.processors.autocrop',
+    'filer.thumbnail_processors.scale_and_crop_with_subject_location',
+    'easy_thumbnails.processors.filters',
+)
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
@@ -156,3 +174,5 @@ STATIC_URL = '/static/'
 AUTH_USER_MODEL = 'users.CustomUser'
 SITE_ID = 1
 X_FRAME_OPTIONS = 'SAME_ORIGIN'
+MEDIA_URL = '/media/'
+MEDIA_ROOT = Path.joinpath(BASE_DIR, 'media')
