@@ -3,3 +3,4 @@ eq.db.env
 node_modules
 *.css
 *.css.map
+__pycache__

@@ -1,6 +1,9 @@
 @charset "utf-8";
 
 @use '../../node_modules/bulma/bulma.sass' with (
+    $info: #EED7F4,
     $primary: #222,
     $primary-invert: #eee
 );
+
+@use 'landing-styles.scss';
