@@ -9,6 +9,9 @@ django = "*"
 environs = "*"
 psycopg2-binary = "*"
 dj-database-url = "*"
+django-cms = "*"
+djangocms-admin-style = "*"
+django-sekizai = "*"
 
 [dev-packages]
 
