@@ -12,6 +12,7 @@ dj-database-url = "*"
 django-cms = "*"
 djangocms-admin-style = "*"
 django-sekizai = "*"
+docutils = "*"
 
 [dev-packages]
 

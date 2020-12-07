@@ -37,6 +37,7 @@ ALLOWED_HOSTS = env.str('ALLOWED_HOSTS').split(',')
 INSTALLED_APPS = [
     'djangocms_admin_style',
     'django.contrib.admin',
+    'django.contrib.admindocs',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',

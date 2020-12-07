@@ -1,3 +1,4 @@
+{% load cms_tags sekizai_tags %}
 <!DOCTYPE html>
 <html>
     <head>
@@ -5,14 +6,16 @@
        <meta http-equiv="X-UA-Compatible" content="IE=edge">
        <meta name="viewport" content="width=device-width, initial-scale=1">
        <title>
-           EduQuest
+           EduQuest: {% page_attribute 'page_title' %}
        </title>
        {% load static %}
        <link rel="shortcut icon" href="{% static 'img/fav_icon.png' %}" type="image/x-icon">
        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
        <link rel="stylesheet" type="text/css" href="{% static 'css/pages.css' %}">
+       {% render_block 'css' %}
     </head>
     <body>
+        {% cms_toolbar %}
         <nav class="navbar has-background-primary has-text-primary-invert">
           <div class="navbar-brand">
             <a class="navbar-item" href="/">EduQuest</a>
@@ -20,6 +23,7 @@
         </nav>
         <div id="content" class="has-background-info-light">
         {% block content %}
+              {% placeholder 'content' %}
         {% endblock %}
         </div>
         <footer class="footer has-background-primary-light">
@@ -32,5 +36,6 @@
             </p>
           </section>
         </footer>
+        {% render_block 'js' %}
     </body>
 </html>
