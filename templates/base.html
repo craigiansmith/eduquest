@@ -14,10 +14,23 @@
     </head>
     <body>
         <nav class="navbar has-background-primary has-text-primary-invert">
+          <div class="navbar-brand">
+            <a class="navbar-item" href="/">EduQuest</a>
+          </div>
         </nav>
-        <div id="content">
+        <div id="content" class="has-background-info-light">
         {% block content %}
         {% endblock %}
         </div>
+        <footer class="footer has-background-primary-light">
+          <section class="has-text-centered">
+            <p>
+            <span class="tags has-addons">
+              <span class="tag is-primary">The Business Validation Project</span>
+              <a class="link tag has-backgroud-primary-light" href="https://tbvp.com.au">TBVP</a>
+            </span>
+            </p>
+          </section>
+        </footer>
     </body>
 </html>

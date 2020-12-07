@@ -2,8 +2,10 @@
 
 @use '../../node_modules/bulma/bulma.sass' with (
     $info: #EED7F4,
-    $primary: #222,
-    $primary-invert: #eee
+    $primary: #ffd42a,
 );
 
-@use 'landing-styles.scss';
+@use 'landing-styles.scss' with (
+    $info: #EED7F4,
+    $primary: #ffd42a
+);

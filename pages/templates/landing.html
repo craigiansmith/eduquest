@@ -1,10 +1,9 @@
 {% extends 'base.html' %}
 {% block content %}
-{# sidebar highscores#}
 <div class="columns has-background-info-light">
-    <div class="column">
+    <div class="column is-one-fifth">
         <section id="scores" class="section has-background-info">
-            <h2>High Scores</h2>
+            <h2 class="is-size-3 has-text-info-dark">High Scores</h2>
             <ol>
                 <li>
                     Kiki: 1,095
@@ -24,21 +23,17 @@
             </ol>
         </section>
     </div>
-{# main content copy#}
     <div class="column">
         <main class="section">
-            <h1>Learn through play!</h1>
-            <p>
-            EduQuest will help you learn through playing games, it's a win for teachers and learners. Students that have trouble engaging with traditional content will find themselves immersed in learning, and having fun!
-            </p>
-            <p>Games are designed for delight, and the content is provided by registered teachers and educators. It's a win/win situation.</p>
-            <h2>Benefits</h2>
-            <p></p>
-
+            <h1 class="is-size-1 has-text-weight-bold has-text-primary">Learn through play!</h1>
+            <div class="has-text-info-dark">
+              <p>
+              EduQuest will help you learn through playing games, it's a win for teachers and learners. Students that have trouble engaging with traditional content will find themselves immersed in learning, and having fun!
+              </p>
+              <p>Games are designed for delight, and the content is provided by registered teachers and educators. It's a win/win situation.</p>
+            </div>
         </main>
     </div>
-
-{# call to actions on right#}
     <div class="column">
         <section class="section">
             <div class="tile is-ancestor">

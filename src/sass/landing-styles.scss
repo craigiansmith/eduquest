@@ -1,8 +1,24 @@
-html, body, #content {
-  min-height: 100%;
+$primary: black !default;
+$info: #eee !default;
+$footer-height: 168px;
+
+html, body {
+  min-height: 100vh;
+}
+
+nav {
+}
+
+#content {
+  min-height: calc(100vh - (168px + 51px));
+  border: 3px solid $info;
 }
 
 #scores {
-  min-height: 100%;
+  min-height: calc(100vh - (168px + 51px));
+}
+
+footer {
+  height: 168px;
 }
 
