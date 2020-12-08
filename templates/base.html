@@ -20,6 +20,10 @@
           <div class="navbar-brand">
             <a class="navbar-item" href="/">EduQuest</a>
           </div>
+          {% load menu_tags %}
+          <div class="navbar-end">
+              {% show_menu 0 100 0 100 %}
+          </div>
         </nav>
         <div id="content" class="has-background-info-light">
         {% block content %}
@@ -34,6 +38,7 @@
             </span>
             </p>
           </section>
+            {% static_placeholder 'footer' %}
         </footer>
         {% render_block 'js' %}
     </body>
