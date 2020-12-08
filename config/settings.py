@@ -102,6 +102,7 @@ TEMPLATES = [
 
 CMS_TEMPLATES = [
     ('home.html', 'Home Page Template'),
+    ('landing.html', 'Landing Page Template'),
 ]
 
 WSGI_APPLICATION = 'config.wsgi.application'
