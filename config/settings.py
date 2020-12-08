@@ -59,6 +59,8 @@ INSTALLED_APPS = [
     'djangocms_video',
     'djangocms_style',
     'pages',
+    'polls',
+    'polls_cms_integration',
 ]
 
 MIDDLEWARE = [
@@ -74,6 +76,7 @@ MIDDLEWARE = [
     'cms.middleware.page.CurrentPageMiddleware',
     'cms.middleware.toolbar.ToolbarMiddleware',
     'cms.middleware.language.LanguageCookieMiddleware',
+    'cms.middleware.utils.ApphookReloadMiddleware',
 ]
 
 ROOT_URLCONF = 'config.urls'

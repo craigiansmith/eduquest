@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "2485b12fac4275919e6e32396d8f267fde8a33db52637d1232ed9e9f4ddd314e"
+            "sha256": "94bcbd4269559c2faa6219777dfba78e45d956e1242b258ae412c655814742ae"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -133,6 +133,14 @@
                 "sha256:83aebc34a9f06de7daaec330d858d1c47887e81be3da77e3541fe7368196dd8a"
             ],
             "version": "==4.3.1"
+        },
+        "django-widget-tweaks": {
+            "hashes": [
+                "sha256:9f91ca4217199b7671971d3c1f323a2bec71a0c27dec6260b3c006fa541bc489",
+                "sha256:f80bff4a8a59b278bb277a405a76a8b9a884e4bae7a6c70e78a39c626cd1c836"
+            ],
+            "index": "pypi",
+            "version": "==1.4.8"
         },
         "djangocms-admin-style": {
             "hashes": [
@@ -269,6 +277,10 @@
             ],
             "markers": "python_version >= '3.6'",
             "version": "==8.0.1"
+        },
+        "polls": {
+            "git": "http://git@github.com/divio/django-polls.git",
+            "ref": "8caed34261c1e6bbf0eeb8aeb2cb7e7b980299bb"
         },
         "psycopg2-binary": {
             "hashes": [

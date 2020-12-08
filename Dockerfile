@@ -4,7 +4,7 @@ LABEL maintainer="craig@tbvp.com.au"
 #ENV ENV=prod
 WORKDIR /src
 RUN apt-get update && \
- apt-get install -y python3 python3-pip python3-dev libpq-dev && \
+ apt-get install -y python3 python3-pip python3-dev libpq-dev git && \
  ln -s /usr/bin/python3 /usr/bin/python && \
  ln -s /usr/bin/pip3 /usr/bin/pip && \
  pip3 install pipenv

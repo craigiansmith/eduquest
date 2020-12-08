@@ -20,6 +20,8 @@ djangocms-file = "*"
 djangocms-picture = "*"
 djangocms-video = "*"
 djangocms-style = "*"
+django-widget-tweaks = "*"
+polls = {git = "http://git@github.com/divio/django-polls.git"}
 
 [dev-packages]
 
