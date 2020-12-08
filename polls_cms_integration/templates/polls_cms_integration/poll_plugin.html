@@ -5,8 +5,9 @@
         {% for choice in instance.poll.choice_set.all %}
             <div class="control">
                 <div class="radio">
-                        <label class="radio">
+                        <label class="radio is-size-2">
                             <input type="radio" name="choice" value="{{ choice.id }}">
+
                             {{ choice.choice_text }}
                         </label>
                 </div>
