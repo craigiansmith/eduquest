@@ -4,7 +4,7 @@
   "description": "Learn through play! EduQuest teaches new learners through games designed to be delightful and educational.",
   "main": "echo \"Run in docker container\"",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "css-build": "sass src/sass/pages.scss pages/static/css/pages.css",
     "css-watch": "npm run css-build -- --watch",
     "start": "npm run css-watch",
@@ -40,5 +40,9 @@
     "sass": "^1.30.0",
     "webpack": "^5.10.1",
     "webpack-cli": "^4.2.0"
+  },
+  "jest": {
+    "roots": ["<rootDir>"],
+    "modulePaths": ["<rootDir>", "src", "src/js"]
   }
 }
