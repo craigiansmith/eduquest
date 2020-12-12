@@ -4,4 +4,4 @@ node_modules
 *.css
 *.css.map
 __pycache__
-./static/js/demo.js
+quizshow/static/js/demo.js
