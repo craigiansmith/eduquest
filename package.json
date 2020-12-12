@@ -7,7 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "css-build": "sass src/sass/pages.scss pages/static/css/pages.css",
     "css-watch": "npm run css-build -- --watch",
-    "start": "npm run css-watch"
+    "start": "npm run css-watch",
+    "js-build": "webpack --watch --config webpack.config.js"
   },
   "repository": {
     "type": "git",

@@ -59,6 +59,7 @@ INSTALLED_APPS = [
     'djangocms_video',
     'djangocms_style',
     'pages',
+    'quizshow',
 ]
 
 MIDDLEWARE = [
@@ -171,6 +172,7 @@ EMAIL_USE_TLS = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = Path.joinpath(BASE_DIR, 'static')
 AUTH_USER_MODEL = 'users.CustomUser'
 SITE_ID = 1
 X_FRAME_OPTIONS = 'SAME_ORIGIN'
