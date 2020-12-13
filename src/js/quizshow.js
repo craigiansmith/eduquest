@@ -24,6 +24,60 @@ class ErrorBoundary extends React.Component {
 }
 
 
+export class Choice extends React.Component {
+    render() {
+        return (
+            <div className='tile is-child'>
+                <div className=''>
+                <label>
+                    <input type='radio'  />
+                    {this.props.text}
+                </label>
+                </div>
+            </div>
+        )
+    }
+}
+
+
+export class AnswerLevel extends React.Component {
+    render() {
+        return (
+            <div className='tile is-parent'>
+                {this.props.choices} 
+            </div>
+        )
+    }
+}
+
+
+export class Answers extends React.Component {
+    render() {
+        let choices = []
+        this.props.choices.forEach((choice, index) => {
+           choices.push(<Choice key={choice.toString()} text={choice.toString()} />)
+        })
+        let answersEachLevel = 2
+        let numberOfLevels = choices.length / answersEachLevel
+        let levels = []
+        for (let i = 0; i < numberOfLevels; i++) {
+            let first = i * answersEachLevel
+            let last = (i + 1) * answersEachLevel
+            levels.push(<AnswerLevel key={i} choices={choices.slice(first, last)} />) 
+        }
+
+        return (
+            <form action='' method='POST'>
+                <div className='tile is-ancestor is-vertical'>
+                    {levels}
+                    <input type='submit' value='Go!' />
+                </div>
+            </form>
+        )
+    }
+}
+
+
 export class Question {
     constructor(questionText, choices, correctAnswer) {
         this._text = questionText
@@ -50,7 +104,8 @@ export class QuestionDisplay extends React.Component {
         super(props)
         this.state = {
             text: props.initialText,
-            questionText: props.text
+            questionText: props.text,
+            choices: props.choices
         }
     }
 
@@ -87,6 +142,7 @@ export class QuestionDisplay extends React.Component {
                     </div>
                 </div>
                 <div className='modal-card-body'>
+                    <Answers choices={this.state.choices} />
                 </div>
                 <div className='modal-card-foot'>
 
@@ -141,12 +197,19 @@ export class BoardContainer extends React.Component {
     }
     render() {
         let questions = []
-        for (let i = 0; i < 12; i++) {
+        for (let i = 1; i <= 12; i++) {
             questions.push(<QuestionDisplay 
                             key={i}
                             initialText={i} 
                             text={'question' + i}
-                            choices={[1,2]}
+                            choices={['answer one',
+                                'another answer',
+                                'a different answer',
+                                'alonger text answer',
+                                'yet another answer',
+                                'and another',
+                                'this might be the right one',
+                                'or this one']}
                             correctAnswer={1} />)
         }
         return <div>
