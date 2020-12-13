@@ -1,8 +1,28 @@
 import React from 'react'
 
-export const QuizShow = () => {
-    return 'Hello';
+class ErrorBoundary extends React.Component {
+    constructor(props) {
+        super(props)
+        this.state = {hasError: false}
+    }
+
+    static getDerivedStateFromError(error) {
+        return {hasError: true}
+    }
+
+    componentDidCatch(error, errorInfo) {
+        console.log(error, errorInfo)
+    }
+
+    render() {
+        if (this.state.hasError) {
+            return <h1>Something went wrong</h1>
+        }
+
+        return this.props.children
+    }
 }
+
 
 export class Question {
     constructor(questionText, choices, correctAnswer) {
@@ -25,20 +45,69 @@ export class Question {
     get choices() {return this._choices}
 }
 
-export class Board {
-    constructor(questions) {
-        if (typeof questions === 'undefined') {
+export class QuestionDisplay extends React.Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            text: props.initialText,
+            questionText: props.text
+        }
+    }
+
+    handleClick() {
+        this.setState({text: this.state.questionText})
+    }
+
+    render() {
+        return (<div className='card' onClick={() => this.handleClick()}>
+               <p>{this.state.text}</p> 
+            </div>)
+    }
+}
+
+export class Board extends React.Component {
+    constructor(props) {
+        super(props)
+        if (typeof props.questions === 'undefined') {
             throw new Error('The Board needs questions')
-        } else if (Array.isArray(questions) && questions.length < 1) {
+        } else if (Array.isArray(props.questions) && props.questions.length < 1) {
             throw new Error('The Board needs questions')
-        } else if (Array.isArray(questions) && questions.length > 12) {
+        } else if (Array.isArray(props.questions) && props.questions.length > 12) {
             throw new Error('No more than 12 questions allowed')
         } else {
-            this._questions = questions
+            this.state = {questions: props.questions}
         }
     }
     get questions() {
         return this._questions
     }
+}
 
+export class BoardContainer extends React.Component {
+    constructor() {
+        super()
+        //const board = new Board({questions: questions})
+    }
+    render() {
+        let questions = []
+        for (let i = 0; i < 12; i++) {
+            questions.push(<QuestionDisplay 
+                            key={i}
+                            initialText={i} 
+                            text={'question' + i}
+                            choices={[1,2]}
+                            correctAnswer={1} />)
+        }
+        return <div>
+            {questions}
+            </div>
+    }
+}
+
+export const QuizShow = () => {
+    return (
+        <ErrorBoundary>
+            <BoardContainer />
+        </ErrorBoundary>
+    ) 
 }
