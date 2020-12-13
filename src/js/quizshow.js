@@ -59,9 +59,25 @@ export class QuestionDisplay extends React.Component {
     }
 
     render() {
-        return (<div className='card' onClick={() => this.handleClick()}>
-               <p>{this.state.text}</p> 
+        return (
+            <div className='level-item'>
+                <div className='box' onClick={() => this.handleClick()} style={{
+                    height: '10vw',
+                    width: '10vw'
+                }}>
+                   <p>{this.state.text}</p> 
+                </div>
             </div>)
+    }
+}
+
+export class QuestionLevel extends React.Component {
+    render() {
+        return (
+            <div className='level'>
+                {this.props.questions}
+            </div>
+        )
     }
 }
 
@@ -99,7 +115,18 @@ export class BoardContainer extends React.Component {
                             correctAnswer={1} />)
         }
         return <div>
-            {questions}
+            <QuestionLevel 
+                level={1}
+                questions={questions.slice(0,4)}
+            />
+            <QuestionLevel 
+                level={2}
+                questions={questions.slice(4,8)}
+            />
+            <QuestionLevel 
+                level={3}
+                questions={questions.slice(8,12)}
+            />
             </div>
     }
 }
