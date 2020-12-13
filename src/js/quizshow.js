@@ -55,10 +55,13 @@ export class QuestionDisplay extends React.Component {
     }
 
     handleClick() {
-        this.setState({text: this.state.questionText})
+        this.setState({
+            text: this.state.questionText,
+            active: true
+        })
     }
 
-    render() {
+    unclicked() {
         return (
             <div className='level-item'>
                 <div className='box' onClick={() => this.handleClick()} style={{
@@ -68,6 +71,38 @@ export class QuestionDisplay extends React.Component {
                    <p>{this.state.text}</p> 
                 </div>
             </div>)
+    }
+
+    closeModal(){
+        this.setState({active: false})
+    }
+
+    active() {
+        return (<div className='modal is-active'>
+            <div className='modal-background'></div>
+            <div className='modal-card'>
+                <div className='modal-card-head'>
+                    <div className='modal-card-title'>
+                       <h2>{this.state.text}</h2>
+                    </div>
+                </div>
+                <div className='modal-card-body'>
+                </div>
+                <div className='modal-card-foot'>
+
+                </div>
+            </div>
+            <button className='modal-close is-large' onClick={() => this.closeModal()}>
+            </button>
+        </div>)
+    }
+
+    render() {
+        if (this.state.active) {
+            return this.active()
+        } else {
+            return this.unclicked()
+        }
     }
 }
 
