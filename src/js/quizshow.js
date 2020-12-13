@@ -30,7 +30,7 @@ export class Choice extends React.Component {
             <div className='tile is-child'>
                 <div className=''>
                 <label>
-                    <input type='radio'  />
+                    <input type='radio' name='answer' />
                     {this.props.text}
                 </label>
                 </div>
@@ -69,7 +69,9 @@ export class Answers extends React.Component {
         return (
             <form action='' method='POST'>
                 <div className='tile is-ancestor is-vertical'>
-                    {levels}
+                    <div className='control'>
+                        {levels}
+                    </div>
                     <input type='submit' value='Go!' />
                 </div>
             </form>
