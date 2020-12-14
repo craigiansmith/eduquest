@@ -144,7 +144,7 @@ export class QuestionDisplay extends React.Component {
             text: props.initialText,
             questionText: props.text,
             choices: props.choices,
-            result: ''
+            result: '',
         }
         this.report = this.report.bind(this)
     }
@@ -174,8 +174,10 @@ export class QuestionDisplay extends React.Component {
 
     report(result) {
         this.setState({result: result? 'Correct' : 'Whoops, incorrect answer'})
+        this.props.report(result) 
     }
 
+    //TODO Make the result into a separate component
     active() {
         return (<div className='modal is-active'>
             <div className='modal-background'></div>
@@ -189,7 +191,7 @@ export class QuestionDisplay extends React.Component {
                     <Answers choices={this.state.choices} report={this.report} />
                 </div>
                 <div className='modal-card-foot'>
-                    <p className='has-background-primary has-text-centered'>{this.state.result} </p>
+                    <p className='content has-background-primary has-text-centered is-size-2'>{this.state.result} </p>
                 </div>
             </div>
             <button className='modal-close is-large' onClick={() => this.closeModal()}>
@@ -238,7 +240,20 @@ export class BoardContainer extends React.Component {
     constructor() {
         super()
         //const board = new Board({questions: questions})
+        this.state = {
+            score: 0,
+            questionsAnswered: 0
+        }
+        this.report = this.report.bind(this)
     }
+
+    report(result) {
+        //score = result? this.state.score + 1: this.state.score
+        this.setState({
+        score: result? this.state.score + 1: this.state.score,
+        questionsAnswered: this.state.questionsAnswered + 1})
+    }
+
     render() {
         let output = []
         questions.forEach((question, index) => {
@@ -247,9 +262,10 @@ export class BoardContainer extends React.Component {
                             initialText={index + 1}
                             text={question.text}
                             choices={question.answers}
-                            correctAnswer={1} />)
+                            report={this.report} />)
         })
         return <div>
+            <p>{this.state.score.toString() + '/' + this.state.questionsAnswered.toString()}</p>
             <QuestionLevel 
                 level={1}
                 questions={output.slice(0,4)}
