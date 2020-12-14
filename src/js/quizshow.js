@@ -57,7 +57,7 @@ export class Answers extends React.Component {
     render() {
         let choices = []
         this.props.choices.forEach((choice, index) => {
-           choices.push(<Choice key={choice.toString()} text={choice.toString()} />)
+           choices.push(<Choice key={choice.text.toString()} text={choice.text.toString()} />)
         })
         let answersEachLevel = 2
         let numberOfLevels = choices.length / answersEachLevel
@@ -200,34 +200,27 @@ export class BoardContainer extends React.Component {
         //const board = new Board({questions: questions})
     }
     render() {
-        let questions = []
-        for (let i = 1; i <= 12; i++) {
-            questions.push(<QuestionDisplay 
-                            key={i}
-                            initialText={i} 
-                            text={'question' + i}
-                            choices={['answer one',
-                                'another answer',
-                                'a different answer',
-                                'alonger text answer',
-                                'yet another answer',
-                                'and another',
-                                'this might be the right one',
-                                'or this one']}
+        let output = []
+        questions.forEach((question, index) => {
+            output.push(<QuestionDisplay
+                            key={question.text.toString()}
+                            initialText={index}
+                            text={question.text}
+                            choices={question.answers}
                             correctAnswer={1} />)
-        }
+        })
         return <div>
             <QuestionLevel 
                 level={1}
-                questions={questions.slice(0,4)}
+                questions={output.slice(0,4)}
             />
             <QuestionLevel 
                 level={2}
-                questions={questions.slice(4,8)}
+                questions={output.slice(4,8)}
             />
             <QuestionLevel 
                 level={3}
-                questions={questions.slice(8,12)}
+                questions={output.slice(8,12)}
             />
             </div>
     }
