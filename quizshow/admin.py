@@ -11,6 +11,7 @@ class ChoiceInline(admin.TabularInline):
 class QuestionsAndAnswersInline(admin.TabularInline):
     model = QuestionsAndAnswers
     inlines = [ChoiceInline]
+    verbose_name = 'Possible answers'
 
 
 class QuestionAdmin(admin.ModelAdmin):

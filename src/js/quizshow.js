@@ -1,5 +1,7 @@
 import React from 'react'
 
+const questions = JSON.parse(document.getElementById('questions').textContent)
+
 class ErrorBoundary extends React.Component {
     constructor(props) {
         super(props)
