@@ -27,12 +27,21 @@ class ErrorBoundary extends React.Component {
 
 
 export class Choice extends React.Component {
+    constructor(props) {
+        super(props)
+        this.handleChange = this.handleChange.bind(this)
+    }
+
+    handleChange(e) {
+        this.props.onChange(e.target.value)
+    }
+
     render() {
         return (
             <div className='tile is-child'>
                 <div className=''>
                 <label>
-                    <input type='radio' name='answer' />
+                    <input type='radio' name='answer' value={this.props.text.toString()} onChange={this.handleChange} />
                     {this.props.text}
                 </label>
                 </div>
@@ -54,10 +63,35 @@ export class AnswerLevel extends React.Component {
 
 
 export class Answers extends React.Component {
+    constructor(props) {
+        super(props)
+        this.state = {choice: ''}
+        this.handleSubmit = this.handleSubmit.bind(this)
+        this.onChoiceChange = this.onChoiceChange.bind(this)
+    }
+
+    handleSubmit(e) {
+        let result = false
+        this.props.choices.forEach((choice, index) => {
+            if (this.state.choice == choice.text && choice.correct) {
+                result = true
+            }
+        })
+        this.props.report(result)
+        e.preventDefault()
+    }
+
+    onChoiceChange(choice){
+        this.setState({choice: choice})
+    }
+
     render() {
         let choices = []
         this.props.choices.forEach((choice, index) => {
-           choices.push(<Choice key={choice.text.toString()} text={choice.text.toString()} />)
+           choices.push(<Choice
+                        key={choice.text.toString()}
+                        text={choice.text.toString()}
+                        onChange={this.onChoiceChange}/>)
         })
         let answersEachLevel = 2
         let numberOfLevels = choices.length / answersEachLevel
@@ -69,7 +103,7 @@ export class Answers extends React.Component {
         }
 
         return (
-            <form action='' method='POST'>
+            <form onSubmit={this.handleSubmit}>
                 <div className='tile is-ancestor is-vertical'>
                     <div className='control'>
                         {levels}
@@ -109,8 +143,10 @@ export class QuestionDisplay extends React.Component {
         this.state = {
             text: props.initialText,
             questionText: props.text,
-            choices: props.choices
+            choices: props.choices,
+            result: ''
         }
+        this.report = this.report.bind(this)
     }
 
     handleClick() {
@@ -136,6 +172,10 @@ export class QuestionDisplay extends React.Component {
         this.setState({active: false})
     }
 
+    report(result) {
+        this.setState({result: result? 'Correct' : 'Whoops, incorrect answer'})
+    }
+
     active() {
         return (<div className='modal is-active'>
             <div className='modal-background'></div>
@@ -146,10 +186,10 @@ export class QuestionDisplay extends React.Component {
                     </div>
                 </div>
                 <div className='modal-card-body'>
-                    <Answers choices={this.state.choices} />
+                    <Answers choices={this.state.choices} report={this.report} />
                 </div>
                 <div className='modal-card-foot'>
-
+                    <p className='has-background-primary has-text-centered'>{this.state.result} </p>
                 </div>
             </div>
             <button className='modal-close is-large' onClick={() => this.closeModal()}>
@@ -204,7 +244,7 @@ export class BoardContainer extends React.Component {
         questions.forEach((question, index) => {
             output.push(<QuestionDisplay
                             key={question.text.toString()}
-                            initialText={index}
+                            initialText={index + 1}
                             text={question.text}
                             choices={question.answers}
                             correctAnswer={1} />)
