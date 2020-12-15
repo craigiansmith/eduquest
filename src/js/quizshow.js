@@ -1,6 +1,5 @@
 import React from 'react'
 
-const questions = JSON.parse(document.getElementById('questions').textContent)
 
 class ErrorBoundary extends React.Component {
     constructor(props) {
@@ -115,27 +114,6 @@ export class Answers extends React.Component {
     }
 }
 
-
-export class Question {
-    constructor(questionText, choices, correctAnswer) {
-        this._text = questionText
-        if (typeof correctAnswer === 'undefined') {
-            throw new Error('Questions need a correct answer')
-        } else {
-            this._correctAnswer = correctAnswer
-        }
-        this._correctAnswer = correctAnswer
-        if (choices.length < 2) {
-            throw new Error('Questions need at least two choices')
-        } else if (choices.length > 10) {
-            throw new Error('Questions may not have more than 10 answers')
-        } else {
-            this._choices = choices
-        }
-    }
-    get text() {return this._text}
-    get choices() {return this._choices}
-}
 
 export class Result extends React.Component {
     constructor(props) {
@@ -265,18 +243,19 @@ export class BoardContainer extends React.Component {
             questionsAnswered: 0
         }
         this.report = this.report.bind(this)
+        this.questions = JSON.parse(document.getElementById('questions').textContent)
     }
 
     report(result) {
         this.setState({
         score: result? this.state.score + 1: this.state.score,
         questionsAnswered: this.state.questionsAnswered + 1,
-        lastQuestion: this.state.questionsAnswered >= questions.length - 1})
+        lastQuestion: this.state.questionsAnswered >= this.questions.length - 1})
     }
 
     render() {
         let output = []
-        questions.forEach((question, index) => {
+        this.questions.forEach((question, index) => {
             output.push(<QuestionDisplay
                             key={question.text.toString()}
                             initialText={index + 1}

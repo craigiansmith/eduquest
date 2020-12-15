@@ -1,12 +1,12 @@
 import React from 'react'
 import {render, unmountComponentAtNode} from 'react-dom'
 import {act} from 'react-dom/test-utils'
-import Enzyme, {shallow} from 'enzyme'
+import Enzyme, {shallow, mount} from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
 
 Enzyme.configure({adapter: new Adapter()})
 
-import {Question, QuestionDisplay,  Board} from 'quizshow'
+import {Answers, AnswerLevel, Choice, Result, Question, QuestionDisplay,  Board} from 'quizshow'
 
 describe('Set up', () => {
     it('should run tests', () => {
@@ -14,54 +14,6 @@ describe('Set up', () => {
 })
 
 describe('Game Mechanics', () => {
-    describe('Questions', () => {
-        it('should include at least two choices', () => {
-            const question = new Question('test', [1,2], 1)
-            expect(question.choices.length).toBeGreaterThanOrEqual(2)
-        })
-
-        it('should throw an Error with fewer than two choices', () => {
-            expect(() => {new Question('test', [1], 1)}).toThrow(Error)
-        })
-
-        it('should have a correct answer', () => {
-            expect(() => {new Question('test', [1,2])}).toThrow(Error)
-        })
-
-        it('should not have more than 10 choices', () => {
-            expect(() => {new Question('test', [
-                1,2,3,4,5,6,7,8,9,10,11
-            ], 1)}).toThrow(Error)
-        })
-    })
-    describe('Board', () => {
-        it('should instantiate', () => {
-            const question = new Question('test', [1,2], 1)
-            const board = new Board(question)
-            expect(board).toBeTruthy()
-        })
-
-        it('should have at least one question', () => {
-            expect(() => {new Board()}).toThrow(Error)
-            expect(() => {new Board([])}).toThrow(Error)
-        })
-
-        it('should have no more than 12 questions', () => {
-            let questions = []
-            for (let i = 0; i < 13; i ++) {
-                questions.push(new Question(i, [1,2], 1))
-            }
-            expect(() => {new Board(questions)}).toThrow(Error)
-        })
-        it('should allow access to questions', () => {
-            let questions = []
-            for (let i = 0; i < 12; i ++) {
-                questions.push(new Question(i, [1,2], 1))
-            }
-            const board = new Board(questions)
-            expect(board.questions).toBeTruthy()
-        })
-    })
 })
 
 describe('React components', () => {
@@ -79,21 +31,30 @@ describe('React components', () => {
     describe('<QuestionDisplay>', () => {
         it('should display a symbol in the board', () => {
             const symbol = '*'
-            const qdisplay = shallow(<QuestionDisplay text={symbol}/>)
+            const qdisplay = shallow(<QuestionDisplay initialText={symbol}/>)
             expect(qdisplay.text()).toEqual(symbol) 
         })
 
         it('should show the question when clicked', () => {
-            const question = new Question('text', [1,2,3,4], 2)
-            const qdisplay = shallow(<QuestionDisplay text='?' 
-                                        question={question} />)
-            qdisplay.simulate('click')
-            expect(qdisplay.text()).toEqual('?')
+            const qdisplay = shallow(<QuestionDisplay />)
+            const box = qdisplay.find('.box')
+            box.simulate('click')
+            expect(qdisplay.find('.modal').length).toEqual(1)
 
         })
+    })
+    describe('<Answers />', () => {
+        it('should show the choices', () => {
+            const choices = [{
+                text: 'answer one',
+                correct: false
+            },{
+                text: 'answer two',
+                correct: true
+            }]
+            const answers = shallow(<Answers choices={choices} />)
 
-        it('should show the choices when clicked', () => {
-        
+            expect(answers.find(AnswerLevel).length).toEqual(1)
         })
 
         it('should accept an answer', () => {
