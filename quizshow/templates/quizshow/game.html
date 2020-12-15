@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
-    <h1 class="has-text-centered is-title is-font-weight-bold is-size-1">Quiz Show</h1>
-    <div id="game">
+    <h1 class="has-text-centered is-title is-font-weight-bold is-size-1 has-background-info-dark has-text-light">Quiz Show</h1>
+    <div id="game" class="block">
 
     </div>
     {{ questions|json_script:'questions' }}
