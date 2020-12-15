@@ -70,6 +70,7 @@ export class Answers extends React.Component {
     }
 
     handleSubmit(e) {
+        e.preventDefault()
         let result = false
         this.props.choices.forEach((choice, index) => {
             if (this.state.choice == choice.text && choice.correct) {
@@ -77,7 +78,6 @@ export class Answers extends React.Component {
             }
         })
         this.props.report(result)
-        e.preventDefault()
     }
 
     onChoiceChange(choice){
@@ -153,7 +153,18 @@ export class QuestionDisplay extends React.Component {
         })
     }
 
-    unclicked() {
+    closeModal(){
+        this.setState({modalActive: '', active: false, clicked:true})
+        this.props.reportToBoard(this.state.correct) 
+    }
+
+    report(result) {
+        this.setState({
+            message: result? 'Correct' : 'Whoops, incorrect answer',
+            correct: result})
+    }
+
+    inactive() {
         let box
         if (!this.state.clicked) {
             box = <div className='box' onClick={() => this.handleClick()} style={{
@@ -174,18 +185,6 @@ export class QuestionDisplay extends React.Component {
             <div className='level-item'>
                 {box}
             </div>)
-    }
-
-    closeModal(){
-        console.log('closing modal window')
-        this.setState({modalActive: '', active: false, clicked:true})
-    }
-
-    report(result) {
-        this.setState({
-            message: result? 'Correct' : 'Whoops, incorrect answer',
-            correct: result})
-        this.props.report(result) 
     }
 
     active() {
@@ -217,7 +216,7 @@ export class QuestionDisplay extends React.Component {
         if (this.state.active) {
             return this.active()
         } else {
-            return this.unclicked()
+            return this.inactive()
         }
     }
 }
@@ -232,24 +231,6 @@ export class QuestionLevel extends React.Component {
     }
 }
 
-export class Board extends React.Component {
-    constructor(props) {
-        super(props)
-        if (typeof props.questions === 'undefined') {
-            throw new Error('The Board needs questions')
-        } else if (Array.isArray(props.questions) && props.questions.length < 1) {
-            throw new Error('The Board needs questions')
-        } else if (Array.isArray(props.questions) && props.questions.length > 12) {
-            throw new Error('No more than 12 questions allowed')
-        } else {
-            this.state = {questions: props.questions}
-        }
-    }
-    get questions() {
-        return this._questions
-    }
-}
-
 export class BoardContainer extends React.Component {
     constructor() {
         super()
@@ -257,18 +238,19 @@ export class BoardContainer extends React.Component {
             score: 0,
             questionsAnswered: 0
         }
-        this.report = this.report.bind(this)
+        this.reportToBoard = this.reportToBoard.bind(this)
         this.questions = JSON.parse(document.getElementById('questions').textContent)
     }
 
-    report(result) {
+    reportToBoard(result) {
         this.setState({
         score: result? this.state.score + 1: this.state.score,
         questionsAnswered: this.state.questionsAnswered + 1,
-        lastQuestion: this.state.questionsAnswered >= this.questions.length - 1})
+        lastQuestion: this.state.questionsAnswered >= this.questions.length - 2,
+        quizFinished: this.state.questionsAnswered >= this.questions.length - 1})
     }
 
-    render() {
+    quiz() {
         let output = []
         this.questions.forEach((question, index) => {
             output.push(<QuestionDisplay
@@ -276,7 +258,7 @@ export class BoardContainer extends React.Component {
                             initialText={index + 1}
                             text={question.text}
                             choices={question.answers}
-                            report={this.report}
+                            reportToBoard={this.reportToBoard}
                             lastQuestion={this.state.lastQuestion} />)
         })
         return <div>
@@ -296,6 +278,16 @@ export class BoardContainer extends React.Component {
                 questions={output.slice(8,12)}
             />
             </div>
+    }
+
+    render() {
+        console.log(this.state.quizFinished)
+        if(!this.state.quizFinished) {
+
+            return this.quiz()
+        } else {
+            return 'Feedback'
+        }
     }
 }
 
