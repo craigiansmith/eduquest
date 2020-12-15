@@ -95,5 +95,4 @@ describe('React components', () => {
             expect(spyOnReport).toHaveBeenCalledWith(true)
         })
     })
-    
 })

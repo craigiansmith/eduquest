@@ -1,6 +1,12 @@
 from django.db import models
 
 
+class Subject(models.Model):
+    name = models.CharField('subject name', max_length=128)
+
+    def __str__(self):
+        return self.name
+
 # Choices (one question to several choices, but also choices can appear in multiple questions)
 # 
 class Choice(models.Model):
@@ -21,7 +27,8 @@ class Choice(models.Model):
 # each question for a class, a group, or several classes.
 class Question(models.Model):
     text = models.CharField('a question', max_length=512)
-    choices = models.ManyToManyField(Choice, through='QuestionsAndAnswers', verbose_name='possible answers')
+    choices = models.ManyToManyField(Choice, through='QuestionsAndAnswers', verbose_name='possible answer')
+    subject = models.ForeignKey(Subject, on_delete=models.SET_NULL, blank=True, null=True)
 
     def __str__(self):
         return self.text
@@ -33,9 +40,9 @@ class QuestionsAndAnswers(models.Model):
     correct = models.BooleanField(default=False)
 
     def __str__(self):
-        return f'{self.questions}-{self.correct}'
+        return f'{self.questions}? {self.choices}--is--{self.correct}'
 
     class Meta:
         constraints = [
-            models.UniqueConstraint(fields=['questions', 'choices'], name='question_and_possible_answers')
+            models.UniqueConstraint(fields=['questions', 'choices'], name='question_and_possible_answer')
         ]
