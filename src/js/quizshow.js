@@ -140,15 +140,13 @@ export class Question {
 export class Result extends React.Component {
     constructor(props) {
         super(props)
-        this.state = {
-            buttonLabel: 'Next question'
-        }
     }
 
     render(props) {
+        let buttonLabel = this.props.lastQuestion? 'End quiz': 'Next question'
         return (
             <div>
-                <button className='is-size-2' onClick={this.props.close}>{this.state.buttonLabel}</button>
+                <button className='is-size-2' onClick={this.props.close}>{buttonLabel}</button>
                 <span className='has-background-primary is-size-2'>{this.props.message} </span>
             </div>
         )
@@ -211,7 +209,10 @@ export class QuestionDisplay extends React.Component {
                     <Answers choices={this.state.choices} report={this.report} />
                 </div>
                 <div className='modal-card-foot'>
-                    <Result message={this.state.result} close={this.closeModal} />
+                    <Result
+                        message={this.state.result}
+                        close={this.closeModal}
+                        lastQuestion={this.props.lastQuestion} />
                 </div>
             </div>
             <button className='modal-close is-large' onClick={() => this.closeModal()}>
@@ -259,7 +260,6 @@ export class Board extends React.Component {
 export class BoardContainer extends React.Component {
     constructor() {
         super()
-        //const board = new Board({questions: questions})
         this.state = {
             score: 0,
             questionsAnswered: 0
@@ -268,10 +268,10 @@ export class BoardContainer extends React.Component {
     }
 
     report(result) {
-        //score = result? this.state.score + 1: this.state.score
         this.setState({
         score: result? this.state.score + 1: this.state.score,
-        questionsAnswered: this.state.questionsAnswered + 1})
+        questionsAnswered: this.state.questionsAnswered + 1,
+        lastQuestion: this.state.questionsAnswered >= questions.length - 1})
     }
 
     render() {
@@ -282,7 +282,8 @@ export class BoardContainer extends React.Component {
                             initialText={index + 1}
                             text={question.text}
                             choices={question.answers}
-                            report={this.report} />)
+                            report={this.report}
+                            lastQuestion={this.state.lastQuestion} />)
         })
         return <div>
             <p>{this.state.score.toString() + '/' + this.state.questionsAnswered.toString()}</p>
