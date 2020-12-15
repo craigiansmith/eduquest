@@ -44,25 +44,55 @@ describe('React components', () => {
         })
     })
     describe('<Answers />', () => {
-        it('should show the choices', () => {
+        it('should show two choices on each level', () => {
             const choices = [{
                 text: 'answer one',
                 correct: false
             },{
                 text: 'answer two',
                 correct: true
+            },{
+                text: 'answer three',
+                correct: false
             }]
-            const answers = shallow(<Answers choices={choices} />)
-
+            const answers = shallow(<Answers choices={choices.slice(0,2)} />)
             expect(answers.find(AnswerLevel).length).toEqual(1)
+
+            const answersNext = shallow(<Answers choices={choices} />)
+            expect(answersNext.find(AnswerLevel).length).toEqual(2)
         })
 
         it('should accept an answer', () => {
-
+            const spyOnReport = jest.fn((a) => true)
+            const choices = [{
+                text: 'answer one',
+                correct: false
+            },{
+                text: 'answer two',
+                correct: true
+            },{
+                text: 'answer three',
+                correct: false
+            }]
+            const answers = shallow(<Answers choices={choices} report={spyOnReport} />)
+            answers.find('form').simulate('submit', {preventDefault: () => true})
+            expect(spyOnReport).toHaveBeenCalled()
         })
 
         it('should say whether the answer is correct', () => {
+            const spyOnReport = jest.fn((arg) => arg)
+            const choice = {
+                text: 'correct answer',
+                correct: true
+            }
+            const answers = shallow(<Answers choices={[choice]} report={spyOnReport}/>)
+            answers.instance().onChoiceChange('incorrect answer')
+            answers.find('form').simulate('submit', {preventDefault: () => 0})
+            expect(spyOnReport).toHaveBeenCalledWith(false)
 
+            answers.instance().onChoiceChange(choice.text)
+            answers.find('form').simulate('submit', {preventDefault: () => 0})
+            expect(spyOnReport).toHaveBeenCalledWith(true)
         })
     })
     
