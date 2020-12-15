@@ -13,7 +13,7 @@ class GameView(TemplateView):
         for q in questions:
             q.answers = q.choices.all()
             for a in q.answers:
-                a.correct = a.questionsandanswers_set.get(pk=a.id).correct
+                a.correct = a.questionsandanswers_set.get(choices=a,  questions=q).correct
 
         output = []
         for q in questions:
