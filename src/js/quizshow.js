@@ -286,7 +286,9 @@ export class BoardContainer extends React.Component {
                             lastQuestion={this.state.lastQuestion} />)
         })
         return <div>
-            <p>{this.state.score.toString() + '/' + this.state.questionsAnswered.toString()}</p>
+            <p className='has-text-centered is-size-3 has-background-primary-light' >
+            {this.state.score.toString() + '/' + this.state.questionsAnswered.toString()}
+            </p>
             <QuestionLevel 
                 level={1}
                 questions={output.slice(0,4)}
