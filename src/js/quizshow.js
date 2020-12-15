@@ -28,19 +28,29 @@ class ErrorBoundary extends React.Component {
 export class Choice extends React.Component {
     constructor(props) {
         super(props)
+        this.state = {chosenAnswer: ''}
         this.handleChange = this.handleChange.bind(this)
     }
 
     handleChange(e) {
         this.props.onChange(e.target.value)
+        this.setState({chosenAnswer: e.target.value})
     }
 
     render() {
+        let disabled
+        console.log(this.state.chosenAnswer)
+        if (!this.props.chosenAnswer) {
+            disabled = ''
+        } else {
+            disabled = this.props.chosenAnswer == this.props.text.toString() ? '': 'yes'
+        }
+        console.log('disabled: ' + disabled)
         return (
             <div className='tile is-child'>
                 <div className=''>
                 <label>
-                    <input type='radio' name='answer' value={this.props.text.toString()} onChange={this.handleChange} />
+                    <input type='radio' name='answer' value={this.props.text.toString()} onChange={this.handleChange} disabled={disabled} />
                     {this.props.text}
                 </label>
                 </div>
@@ -64,7 +74,7 @@ export class AnswerLevel extends React.Component {
 export class Answers extends React.Component {
     constructor(props) {
         super(props)
-        this.state = {choice: ''}
+        this.state = {choice: '', disabled: 'disabled', answered: false}
         this.handleSubmit = this.handleSubmit.bind(this)
         this.onChoiceChange = this.onChoiceChange.bind(this)
     }
@@ -78,10 +88,13 @@ export class Answers extends React.Component {
             }
         })
         this.props.report(result)
+        this.setState({disabled: 'disabled'})
     }
 
     onChoiceChange(choice){
-        this.setState({choice: choice})
+        if (!this.state.answered) {
+            this.setState({choice: choice, answered: true, disabled: ''})
+        }
     }
 
     render() {
@@ -90,7 +103,10 @@ export class Answers extends React.Component {
            choices.push(<Choice
                         key={choice.text.toString()}
                         text={choice.text.toString()}
-                        onChange={this.onChoiceChange}/>)
+                        onChange={this.onChoiceChange}
+                        answered={this.state.answered} 
+                        chosenAnswer={this.state.choice}
+               />)
         })
         let answersEachLevel = 2
         let numberOfLevels = choices.length / answersEachLevel
@@ -107,7 +123,7 @@ export class Answers extends React.Component {
                     <div className='control'>
                         {levels}
                     </div>
-                    <input type='submit' value='Go!' />
+                    <input type='submit' value='Go!' disabled={this.state.disabled} />
                 </div>
             </form>
         )
@@ -231,6 +247,21 @@ export class QuestionLevel extends React.Component {
     }
 }
 
+
+export class Feedback extends React.Component {
+    render() {
+        return (
+            <div className='section'>
+                <h2 className='is-size-2 is-font-weight-bold is-light'>Thank you for playing, here are your results:</h2>
+                <div className='block'>
+                    <p>You got {this.props.results.correctAnswers} out of {this.props.results.totalAnswered}.</p>
+                    <p>That is a good effort, keep trying to see how much you will achieve!</p>
+                </div>
+            </div>
+        )
+    }
+}
+
 export class BoardContainer extends React.Component {
     constructor() {
         super()
@@ -281,12 +312,11 @@ export class BoardContainer extends React.Component {
     }
 
     render() {
-        console.log(this.state.quizFinished)
         if(!this.state.quizFinished) {
 
             return this.quiz()
         } else {
-            return 'Feedback'
+            return <Feedback results={{correctAnswers: this.state.score, totalAnswered: this.state.questionsAnswered}} />
         }
     }
 }
