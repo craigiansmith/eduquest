@@ -137,6 +137,24 @@ export class Question {
     get choices() {return this._choices}
 }
 
+export class Result extends React.Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            buttonLabel: 'Next question'
+        }
+    }
+
+    render(props) {
+        return (
+            <div>
+                <button className='is-size-2' onClick={this.props.close}>{this.state.buttonLabel}</button>
+                <span className='has-background-primary is-size-2'>{this.props.message} </span>
+            </div>
+        )
+    }
+}
+
 export class QuestionDisplay extends React.Component {
     constructor(props) {
         super(props)
@@ -144,9 +162,11 @@ export class QuestionDisplay extends React.Component {
             text: props.initialText,
             questionText: props.text,
             choices: props.choices,
-            result: '',
+            result: ' ',
+            modalActive: 'is-active'
         }
         this.report = this.report.bind(this)
+        this.closeModal = this.closeModal.bind(this)
     }
 
     handleClick() {
@@ -169,7 +189,8 @@ export class QuestionDisplay extends React.Component {
     }
 
     closeModal(){
-        this.setState({active: false})
+        console.log('closing modal window')
+        this.setState({modalActive: ''})
     }
 
     report(result) {
@@ -177,9 +198,8 @@ export class QuestionDisplay extends React.Component {
         this.props.report(result) 
     }
 
-    //TODO Make the result into a separate component
     active() {
-        return (<div className='modal is-active'>
+        return (<div className={`modal ${this.state.modalActive}`}>
             <div className='modal-background'></div>
             <div className='modal-card'>
                 <div className='modal-card-head'>
@@ -191,7 +211,7 @@ export class QuestionDisplay extends React.Component {
                     <Answers choices={this.state.choices} report={this.report} />
                 </div>
                 <div className='modal-card-foot'>
-                    <p className='content has-background-primary has-text-centered is-size-2'>{this.state.result} </p>
+                    <Result message={this.state.result} close={this.closeModal} />
                 </div>
             </div>
             <button className='modal-close is-large' onClick={() => this.closeModal()}>
