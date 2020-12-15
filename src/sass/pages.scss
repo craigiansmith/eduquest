@@ -3,6 +3,7 @@
 @use '../../node_modules/bulma/bulma.sass' with (
     $info: #EED7F4,
     $primary: #ffd42a,
+    $warning: red,
 );
 
 @use 'landing-styles.scss' with (

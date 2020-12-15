@@ -122,10 +122,11 @@ export class Result extends React.Component {
 
     render(props) {
         let buttonLabel = this.props.lastQuestion? 'End quiz': 'Next question'
+        let colouring = this.props.correct? 'primary': 'warning'
         return (
             <div>
-                <button className='is-size-2' onClick={this.props.close}>{buttonLabel}</button>
-                <span className='has-background-primary is-size-2'>{this.props.message} </span>
+                <button className='is-size-3' onClick={this.props.close}>{buttonLabel}</button>
+                <span className={`has-background-${colouring} is-size-3`}>{this.props.message} </span>
             </div>
         )
     }
@@ -153,24 +154,37 @@ export class QuestionDisplay extends React.Component {
     }
 
     unclicked() {
-        return (
-            <div className='level-item'>
-                <div className='box' onClick={() => this.handleClick()} style={{
-                    height: '10vw',
-                    width: '10vw'
-                }}>
+        let box
+        if (!this.state.clicked) {
+            box = <div className='box' onClick={() => this.handleClick()} style={{
+                                height: '10vw',
+                                width: '10vw'
+                            }}>
                    <p>{this.state.text}</p> 
                 </div>
+        } else {
+            box = <div className='box has-background-info' style={{
+                                height: '10vw',
+                                width: '10vw'
+                            }}>
+                   <p>{this.state.text}</p> 
+                </div>
+        }
+        return (
+            <div className='level-item'>
+                {box}
             </div>)
     }
 
     closeModal(){
         console.log('closing modal window')
-        this.setState({modalActive: ''})
+        this.setState({modalActive: '', active: false, clicked:true})
     }
 
     report(result) {
-        this.setState({result: result? 'Correct' : 'Whoops, incorrect answer'})
+        this.setState({
+            message: result? 'Correct' : 'Whoops, incorrect answer',
+            correct: result})
         this.props.report(result) 
     }
 
@@ -188,7 +202,8 @@ export class QuestionDisplay extends React.Component {
                 </div>
                 <div className='modal-card-foot'>
                     <Result
-                        message={this.state.result}
+                        message={this.state.message}
+                        correct={this.state.correct}
                         close={this.closeModal}
                         lastQuestion={this.props.lastQuestion} />
                 </div>
