@@ -42,7 +42,7 @@ export class Choice extends React.Component {
         console.log(this.state.chosenAnswer)
         if (!this.props.chosenAnswer) {
             disabled = ''
-        } else {
+        } else if (this.props.answered) {
             disabled = this.props.chosenAnswer == this.props.text.toString() ? '': 'yes'
         }
         console.log('disabled: ' + disabled)
@@ -88,12 +88,12 @@ export class Answers extends React.Component {
             }
         })
         this.props.report(result)
-        this.setState({disabled: 'disabled'})
+        this.setState({disabled: 'disabled', answered: true})
     }
 
     onChoiceChange(choice){
         if (!this.state.answered) {
-            this.setState({choice: choice, answered: true, disabled: ''})
+            this.setState({choice: choice, disabled: ''})
         }
     }
 
