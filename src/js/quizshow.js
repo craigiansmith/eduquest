@@ -39,13 +39,11 @@ export class Choice extends React.Component {
 
     render() {
         let disabled
-        console.log(this.state.chosenAnswer)
         if (!this.props.chosenAnswer) {
             disabled = ''
         } else if (this.props.answered) {
             disabled = this.props.chosenAnswer == this.props.text.toString() ? '': 'yes'
         }
-        console.log('disabled: ' + disabled)
         return (
             <div className='tile is-child'>
                 <div className=''>
@@ -138,9 +136,9 @@ export class Result extends React.Component {
     }
 
     render(props) {
-        let buttonColour = this.props.disabled? '': 'is-primary'
-        let buttonLabel = this.props.lastQuestion? 'End quiz': 'Next question'
-        let colouring = this.props.message? this.props.correct? 'success': 'warning': 'grey'
+        const buttonColour = this.props.disabled? '': 'is-primary'
+        const buttonLabel = this.props.lastQuestion? 'End quiz': 'Next question'
+        const colouring = this.props.message? this.props.correct? 'success': 'warning': 'grey'
         const style = this.props.message? '': 'has-text-grey-light'
         const message = this.props.message? this.props.message: 'result'
         return (
@@ -184,7 +182,8 @@ export class QuestionDisplay extends React.Component {
 
     closeModal(){
         this.setState({modalActive: '', active: false, clicked:true})
-        this.props.reportToBoard(this.state.correct) 
+        this.props.reportToBoard({question: this.state.questionText,
+                                  correct: this.state.correct}) 
     }
 
     report(result) {
@@ -219,7 +218,7 @@ export class QuestionDisplay extends React.Component {
     }
 
     active() {
-        return (<div className={`modal ${this.state.modalActive}`}>
+        return (<div className={`modal ${this.state.modalActive} is-primary`}>
             <div className='modal-background'></div>
             <div className='modal-card'>
                 <div className='modal-card-head'>
@@ -269,11 +268,13 @@ export class QuestionLevel extends React.Component {
 export class Feedback extends React.Component {
     render() {
         return (
-            <div className='section'>
+            <div className='section has-text-centered'>
                 <h2 className='is-size-2 is-font-weight-bold is-light'>Thank you for playing, here are your results:</h2>
                 <div className='block'>
                     <p>You got {this.props.results.correctAnswers} out of {this.props.results.totalAnswered}.</p>
                     <p>That is a good effort, keep trying to see how much you will achieve!</p>
+                    <h3 className='is-subtitle is-2'>Results</h3>
+                    {this.props.results.answers}
                 </div>
             </div>
         )
@@ -285,18 +286,23 @@ export class BoardContainer extends React.Component {
         super()
         this.state = {
             score: 0,
-            questionsAnswered: 0
+            questionsAnswered: 0,
+            answers: []
         }
         this.reportToBoard = this.reportToBoard.bind(this)
         this.questions = JSON.parse(document.getElementById('questions').textContent)
     }
 
     reportToBoard(result) {
+        const message = result.correct? 'Correct': 'Incorrect'
+        const style = result.correct? 'has-text-success':'has-text-warning'
         this.setState({
-        score: result? this.state.score + 1: this.state.score,
+        score: result.correct? this.state.score + 1: this.state.score,
         questionsAnswered: this.state.questionsAnswered + 1,
         lastQuestion: this.state.questionsAnswered >= this.questions.length - 2,
         quizFinished: this.state.questionsAnswered >= this.questions.length - 1})
+        answers: this.state.answers.push(
+            <p className={style} key={result.question}> {result.question} {message}</p>)
     }
 
     quiz() {
@@ -336,7 +342,7 @@ export class BoardContainer extends React.Component {
 
             return this.quiz()
         } else {
-            return <Feedback results={{correctAnswers: this.state.score, totalAnswered: this.state.questionsAnswered}} />
+            return <Feedback results={{correctAnswers: this.state.score, totalAnswered: this.state.questionsAnswered, answers: this.state.answers}} />
         }
     }
 }
