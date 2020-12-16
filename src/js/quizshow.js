@@ -98,6 +98,7 @@ export class Answers extends React.Component {
     }
 
     render() {
+        const buttonColour = this.state.disabled? '': 'is-primary'
         let choices = []
         this.props.choices.forEach((choice, index) => {
            choices.push(<Choice
@@ -123,7 +124,7 @@ export class Answers extends React.Component {
                     <div className='control'>
                         {levels}
                     </div>
-                    <input type='submit' value='Go!' disabled={this.state.disabled} />
+                    <input className={`button ${buttonColour}`} type='submit' value='Go!' disabled={this.state.disabled} />
                 </div>
             </form>
         )
@@ -137,9 +138,9 @@ export class Result extends React.Component {
     }
 
     render(props) {
-        let buttonColour = this.props.disabled? '': 'is-info'
+        let buttonColour = this.props.disabled? '': 'is-primary'
         let buttonLabel = this.props.lastQuestion? 'End quiz': 'Next question'
-        let colouring = this.props.correct? 'primary': 'warning'
+        let colouring = this.props.correct? 'success': 'warning-light'
         return (
             <div>
                 <button className={`button is-size-3 ${buttonColour}`} 
