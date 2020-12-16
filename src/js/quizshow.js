@@ -140,14 +140,21 @@ export class Result extends React.Component {
     render(props) {
         let buttonColour = this.props.disabled? '': 'is-primary'
         let buttonLabel = this.props.lastQuestion? 'End quiz': 'Next question'
-        let colouring = this.props.correct? 'success': 'warning-light'
+        let colouring = this.props.message? this.props.correct? 'success': 'warning': 'grey'
+        const style = this.props.message? '': 'has-text-grey-light'
+        const message = this.props.message? this.props.message: 'result'
         return (
-            <div>
+            <div style={{width: '100%'}}>
+                <article className={`message is-${colouring}`}>
+                    <div className='message-body'>
+                        <p className={`is-size-3 ${style} has-text-centered`} style={{
+                                width: '100%'}}>{message} </p>
+                    </div>
+                </article>
                 <button className={`button is-size-3 ${buttonColour}`} 
                         onClick={this.props.close}
                         disabled={this.props.disabled}
                 >{buttonLabel}</button>
-                <span className={`has-background-${colouring} is-size-3`}>{this.props.message} </span>
             </div>
         )
     }
@@ -182,7 +189,7 @@ export class QuestionDisplay extends React.Component {
 
     report(result) {
         this.setState({
-            message: result? 'Correct' : 'Whoops, incorrect answer',
+            message: result? 'Correct' : 'Whoops, incorrect',
             correct: result,
             disabled: ''
             })
