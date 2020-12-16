@@ -137,11 +137,15 @@ export class Result extends React.Component {
     }
 
     render(props) {
+        let buttonColour = this.props.disabled? '': 'is-info'
         let buttonLabel = this.props.lastQuestion? 'End quiz': 'Next question'
         let colouring = this.props.correct? 'primary': 'warning'
         return (
             <div>
-                <button className='is-size-3' onClick={this.props.close}>{buttonLabel}</button>
+                <button className={`button is-size-3 ${buttonColour}`} 
+                        onClick={this.props.close}
+                        disabled={this.props.disabled}
+                >{buttonLabel}</button>
                 <span className={`has-background-${colouring} is-size-3`}>{this.props.message} </span>
             </div>
         )
@@ -156,7 +160,8 @@ export class QuestionDisplay extends React.Component {
             questionText: props.text,
             choices: props.choices,
             result: ' ',
-            modalActive: 'is-active'
+            modalActive: 'is-active',
+            disabled: 'yes'
         }
         this.report = this.report.bind(this)
         this.closeModal = this.closeModal.bind(this)
@@ -177,7 +182,9 @@ export class QuestionDisplay extends React.Component {
     report(result) {
         this.setState({
             message: result? 'Correct' : 'Whoops, incorrect answer',
-            correct: result})
+            correct: result,
+            disabled: ''
+            })
     }
 
     inactive() {
@@ -220,10 +227,13 @@ export class QuestionDisplay extends React.Component {
                         message={this.state.message}
                         correct={this.state.correct}
                         close={this.closeModal}
-                        lastQuestion={this.props.lastQuestion} />
+                        lastQuestion={this.props.lastQuestion} 
+                        disabled={this.state.disabled}
+                        />
                 </div>
             </div>
-            <button className='modal-close is-large' onClick={() => this.closeModal()}>
+            <button className='modal-close is-large' 
+                    onClick={() => this.closeModal()}>
             </button>
         </div>)
     }
