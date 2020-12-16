@@ -195,14 +195,14 @@ export class QuestionDisplay extends React.Component {
                                 height: '10vw',
                                 width: '10vw'
                             }}>
-                   <p>{this.state.text}</p> 
+                   <p className='has-text-centered has-font-weight-bold is-size-1 has-text-info-dark'>{this.state.text}</p> 
                 </div>
         } else {
             box = <div className='box has-background-info' style={{
                                 height: '10vw',
                                 width: '10vw'
                             }}>
-                   <p>{this.state.text}</p> 
+                   <p className='has-text-centered'>{this.state.text}</p> 
                 </div>
         }
         return (
@@ -307,18 +307,20 @@ export class BoardContainer extends React.Component {
             <p className='has-text-centered is-size-3 has-background-primary-light' >
             {this.state.score.toString() + '/' + this.state.questionsAnswered.toString()}
             </p>
-            <QuestionLevel 
-                level={1}
-                questions={output.slice(0,4)}
-            />
-            <QuestionLevel 
-                level={2}
-                questions={output.slice(4,8)}
-            />
-            <QuestionLevel 
-                level={3}
-                questions={output.slice(8,12)}
-            />
+                <div  className='section'>
+                    <QuestionLevel 
+                        level={1}
+                        questions={output.slice(0,4)}
+                    />
+                    <QuestionLevel 
+                        level={2}
+                        questions={output.slice(4,8)}
+                    />
+                    <QuestionLevel 
+                        level={3}
+                        questions={output.slice(8,12)}
+                    />
+                </div>
             </div>
     }
 
