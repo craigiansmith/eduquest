@@ -9,7 +9,7 @@ class GameView(TemplateView):
     template_name = 'quizshow/game.html'
 
     def get_context_data(self, **kwargs):
-        questions = Question.objects.all().order_by('?')[:8]
+        questions = Question.objects.all().order_by('?')[:2]
         for q in questions:
             q.answers = q.choices.all()
             for a in q.answers:

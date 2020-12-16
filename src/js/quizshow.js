@@ -78,13 +78,15 @@ export class Answers extends React.Component {
     }
 
     handleSubmit(e) {
+        let result = {}
         e.preventDefault()
-        let result = false
+        result.correct = false
         this.props.choices.forEach((choice, index) => {
             if (this.state.choice == choice.text && choice.correct) {
-                result = true
+                result.correct = true
             }
         })
+        result.choice = this.state.choice
         this.props.report(result)
         this.setState({disabled: 'disabled', answered: true})
     }
@@ -188,9 +190,10 @@ export class QuestionDisplay extends React.Component {
 
     report(result) {
         this.setState({
-            message: result? 'Correct' : 'Whoops, incorrect',
-            correct: result,
-            disabled: ''
+            message: result.correct? 'Correct' : 'Whoops, incorrect',
+            correct: result.correct,
+            disabled: '',
+            choice: result.choice 
             })
     }
 
