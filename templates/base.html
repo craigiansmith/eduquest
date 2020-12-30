@@ -19,7 +19,7 @@
         {% cms_toolbar %}
         <nav class="navbar is-info-light is-fixed-top">
             <div class="navbar-brand">
-                <a href="/" class="navbar-item">LearnQuest</a>
+                <a href="{% url 'landing' %}" class="navbar-item">LearnQuest</a>
                 <a role="button" class="navbar-burger" aria-label="menu" data-target="main-nav">
                     <span> </span>
                     <span> </span>
@@ -59,7 +59,7 @@
                 </div>
             </div>
         </nav>
-        <div id="content" class="has-background-info-light">
+        <div id="content" class="has-background-primary-light">
 
         {% block content %}
         {% endblock %}
