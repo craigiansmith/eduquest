@@ -1,12 +1,38 @@
 @charset "utf-8";
 
-@use '../../node_modules/bulma/bulma.sass' with (
-    $info: #EED7F4,
-    $primary: #ffd42a,
-    $warning: red,
-);
+$primary: #ede639;
+$success: #9def39;
+$warning: #ef8b39;
 
-@use 'landing-styles.scss' with (
-    $info: #EED7F4,
-    $primary: #ffd42a
-);
+@import "../../node_modules/bulma/bulma.sass";
+
+//@import 'landing-styles.scss';
+
+html, body {
+  min-height: 100vh;
+}
+
+main {
+    background: url('bg.jpg') no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+#content {
+  min-height: calc(100vh - (168px + 51px));
+  border: 3px solid $info;
+}
+
+#game-title {
+    margin-top: 51px;
+}
+
+nav {
+    box-shadow: 0 2px 4px #eee;
+}
+
+footer {
+  height: 168px;
+}

@@ -5,3 +5,4 @@ node_modules
 *.css.map
 __pycache__
 quizshow/static/js/demo.js
+/static/
