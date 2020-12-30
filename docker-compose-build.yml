@@ -3,10 +3,11 @@ version: '3.8'
 services:
     web:
         build: .
+        #command: sleep 1000
         command: >
-            sh -c  "python manage.py migrate &&
-                    python manage.py collectstatic --noinput &&
-                    gunicorn -b 0.0.0.0:60000 config.wsgi:application"
+           sh -c  "python manage.py migrate &&
+                   python manage.py collectstatic --noinput &&
+                   gunicorn -b 0.0.0.0:60002 config.wsgi:application"
         volumes:
             - .:/src
             - eq_static:/src/static

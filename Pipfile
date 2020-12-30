@@ -20,6 +20,7 @@ djangocms-file = "*"
 djangocms-picture = "*"
 djangocms-video = "*"
 djangocms-style = "*"
+gunicorn = "*"
 
 [dev-packages]
 

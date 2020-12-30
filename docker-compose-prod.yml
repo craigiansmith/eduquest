@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
     web:
-        image: thebusinessvalidationproject/tbvp-software:eduquestv1
+        image: thebusinessvalidationproject/tbvp-software:learnquestv2
         command: >
             sh -c  "python manage.py migrate &&
                     python manage.py collectstatic --noinput &&

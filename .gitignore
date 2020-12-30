@@ -6,3 +6,4 @@ node_modules
 __pycache__
 quizshow/static/js/demo.js
 /static/
+db-init.sql
