@@ -13,14 +13,6 @@ django-cms = "*"
 djangocms-admin-style = "*"
 django-sekizai = "*"
 docutils = "*"
-django-filer = "*"
-djangocms-text-ckeditor = "*"
-djangocms-link = "*"
-djangocms-file = "*"
-djangocms-picture = "*"
-djangocms-video = "*"
-djangocms-style = "*"
-gunicorn = "*"
 
 [dev-packages]
 
