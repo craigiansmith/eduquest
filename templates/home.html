@@ -1,4 +1,6 @@
 {% extends 'base.html' %}
 {% load cms_tags sekizai_tags %}
 {% block content %}
+  {% cms_toolbar %}
+  {% placeholder 'content' %}
 {% endblock %}
