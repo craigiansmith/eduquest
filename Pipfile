@@ -10,6 +10,7 @@ environs = "*"
 psycopg2-binary = "*"
 dj-database-url = "*"
 gunicorn = "*"
+wagtail = "*"
 
 [dev-packages]
 
